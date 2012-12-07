@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="edu.mit.csail.relo"
+      label="Relo"
+      version="0.4.14"
+      provider-name="Relo @ MIT CSAIL">
+   <install-handler/>
+
+   <description>
+      Relo, focuses on supporting users to understand
+parts of large codebases.
+More information available at: http://relo.csail.mit.edu/
+   </description>
+
+   <copyright>
+      Copyright (c) 2004-2006 Massachusetts Institute of Technology.
+All rights reserved.
+This code was developed as part of the Haystack (http://haystack.csail.mit.edu/)
+research 
+project at MIT.
+This product includes software developed by the Apache Software
+Foundation (http://www.apache.org/), Hewlett-Packard Development
+Company (http://jena.sourceforge.net/), The Codehaus (http://groovy.codehaus.org/)
+and Daniel Tunkelang (http://www-2.cs.cmu.edu/~quixote/).
+   </copyright>
+
+   <license>
+      Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+&quot;Software&quot;), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and
+to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+   </license>
+
+   <url>
+      <update label="Relo update site" url="http://relo.csail.mit.edu/update/"/>
+   </url>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.jdt.core" version="3.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jdt.ui" version="3.1.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.help"/>
+      <import plugin="org.eclipse.jface"/>
+   </requires>
+
+   <plugin
+         id="edu.mit.csail.relo"
+         download-size="177"
+         install-size="177"
+         version="0.4.14"/>
+
+   <plugin
+         id="edu.mit.csail.relo.store"
+         download-size="1017"
+         install-size="1017"
+         version="0.4.14"/>
+
+   <plugin
+         id="edu.mit.csail.relo.log4j"
+         download-size="319"
+         install-size="319"
+         version="0.4.14"/>
+
+   <plugin
+         id="jiggle"
+         download-size="81"
+         install-size="81"
+         version="0.4.14"/>
+
+   <plugin
+         id="org.apache.commons.collections"
+         download-size="484"
+         install-size="484"
+         version="3.1.0"/>
+
+   <plugin
+         id="org.eclipse.gef"
+         download-size="739"
+         install-size="739"
+         version="3.1.1"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.draw2d"
+         download-size="465"
+         install-size="465"
+         version="3.1.1"
+         unpack="false"/>
+
+   <plugin
+         id="edu.mit.csail.relo.intro"
+         download-size="0"
+         install-size="0"
+         version="0.4.14"/>
+
+   <plugin
+         id="edu.mit.csail.relo.jdt"
+         download-size="0"
+         install-size="0"
+         version="0.4.14"/>
+
+</feature>

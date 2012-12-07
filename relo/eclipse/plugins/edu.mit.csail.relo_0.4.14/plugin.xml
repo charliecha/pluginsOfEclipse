@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="edu.mit.csail.relo"
+   name="Relo Core"
+   version="0.4.14"
+   provider-name="Relo @ MIT CSAIL"
+   class="edu.mit.csail.relo.ReloPlugin">
+
+   <runtime>
+      <library name="Relo.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.views"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.gef"/>
+      <import plugin="org.eclipse.draw2d"/>
+      <import plugin="edu.mit.csail.relo.store"/>
+      <import plugin="org.apache.commons.collections"/>
+      <import plugin="edu.mit.csail.relo.log4j"/>
+      <import plugin="jiggle"/>
+   </requires>
+
+   <extension
+         id="defaultModelInit"
+         point="edu.mit.csail.relo.store.initializer">
+      <storeInitializer
+            class="edu.mit.csail.relo.ReloCore">
+      </storeInitializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Browsing Editor"
+            default="true"
+            icon="icons/relo-document.png"
+            extensions="relo"
+            contributorClass="edu.mit.csail.relo.ui.ReloEditorContributor"
+            class="edu.mit.csail.relo.ui.ReloEditor"
+            id="edu.mit.csail.relo.editor">
+      </editor>
+      <!--
+      <editor
+            name="Browsing Editor"
+            default="false"
+            icon="icons/relo-document.png"
+            contributorClass="org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditorActionContributor"
+            class="edu.mit.csail.relo.jdt.JavaEditorlet"
+            id="edu.mit.csail.relo.jdt.JavaEditorlet">
+      </editor>
+      -->
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Relo"
+            id="edu.mit.csail.relo">
+      </category>
+      <view
+            name="Relo Thumbnail"
+            icon="icons/relo16.gif"
+            category="edu.mit.csail.relo"
+            class="edu.mit.csail.relo.ui.ReloThumbnailView"
+            id="edu.mit.csail.relo.ui.ReloThumbnailView">
+      </view>
+      <view
+            name="Relo View"
+            icon="icons/relo-document.png"
+            category="edu.mit.csail.relo"
+            class="edu.mit.csail.relo.ui.ReloView"
+            id="edu.mit.csail.relo.ui.ReloView">
+      </view>
+   </extension>
+   
+   <!-- undo/redo for relo view -->
+   <extension
+         point="org.eclipse.ui.viewActions">
+      <viewContribution
+            id="edu.mit.csail.relo.reloViewOnlyContributions"
+            targetID="edu.mit.csail.relo.ui.ReloView">
+         <!-- we are currently flipping the order below to show undo first, but this should be done in the 'correct way' -->
+         <action
+               class="edu.mit.csail.relo.ui.GraphicalView$GraphicalRedoAction"
+               icon="icons/redo.gif"
+               id="edu.mit.csail.relo.redoAction"
+               label="Redo"
+               style="push"
+               toolbarPath="Normal/additions"
+               tooltip="Redo Last Action"/>
+         <action
+               class="edu.mit.csail.relo.ui.GraphicalView$GraphicalUndoAction"
+               icon="icons/undo.gif"
+               id="edu.mit.csail.relo.undoAction"
+               label="Undo"
+               style="push"
+               toolbarPath="Normal/additions"
+               tooltip="Undo Last Action"/>
+      </viewContribution>
+   </extension>
+   
+   <!-- capabilities for relo view and editor -->
+   <extension point="org.eclipse.ui.editorActions">
+      <editorContribution
+            id="edu.mit.csail.relo.reloEditorContribution"
+            targetID="edu.mit.csail.relo.editor">
+	   	 <!-- removeAll -->
+         <action
+               class="edu.mit.csail.relo.ui.RemoveAllAction"
+               icon="icons/rem_all.gif"
+               id="edu.mit.csail.relo.ui.RemoveAll"
+               label="Remove All"
+               style="push"
+               toolbarPath="Normal/additions"
+               tooltip="Remove All Items in Diagram"/>
+	   	 <!-- feedback -->
+         <action
+               class="edu.mit.csail.relo.ui.FeedbackDialog$FeedbackDlgAction"
+               icon="icons/mail-forward.png"
+               id="edu.mit.csail.relo.ui.FeedbackDialog"
+               label="Provide Feedback"
+               style="push"
+               toolbarPath="Normal/additions"
+               tooltip="Provide Feedback on Relo"/>
+      </editorContribution>
+   </extension>
+   <extension point="org.eclipse.ui.viewActions">
+      <viewContribution
+            id="edu.mit.csail.relo.reloViewContribution"
+            targetID="edu.mit.csail.relo.ui.ReloView">
+		 <!-- removeAll -->
+         <action
+               class="edu.mit.csail.relo.ui.RemoveAllAction"
+               icon="icons/rem_all.gif"
+               id="edu.mit.csail.relo.ui.RemoveAll"
+               label="Remove All"
+               style="push"
+               toolbarPath="Normal/additions"
+               tooltip="Remove All Items in Diagram"/>
+         <action
+               class="edu.mit.csail.relo.ui.FeedbackDialog$FeedbackDlgAction"
+               icon="icons/mail-forward.png"
+               id="edu.mit.csail.relo.ui.FeedbackDialog"
+               label="Provide Feedback"
+               style="push"
+               toolbarPath="Normal/additions"
+               tooltip="Provide Feedback on Relo"/>
+      </viewContribution>
+   </extension>
+   
+
+</plugin>

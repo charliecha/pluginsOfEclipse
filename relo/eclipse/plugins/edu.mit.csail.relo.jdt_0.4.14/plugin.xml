@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="edu.mit.csail.relo.jdt"
+   name="Relo JDT Support"
+   version="0.4.14"
+   provider-name="Relo @ MIT CSAIL"
+   class="edu.mit.csail.relo.jdt.ReloJDTPlugin">
+
+   <runtime>
+      <library name="ReloJDT.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/asm-2.2.3.jar"/>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.jdt.core"/>
+      <import plugin="org.eclipse.jdt.ui"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.gef"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="edu.mit.csail.relo.store"/>
+      <import plugin="edu.mit.csail.relo"/>
+      <import plugin="edu.mit.csail.relo.log4j"/>
+      <import plugin="org.apache.commons.collections"/>
+      <import plugin="jiggle"/>
+      <import plugin="edu.mit.csail.relo.intro"/>
+      <import plugin="org.eclipse.jdt.debug"/>
+      <import plugin="org.eclipse.debug.core"/>
+   </requires>
+
+   <extension-point id="reloBuildProcessor" name="Relo RDF Build Processor" schema="schema/reloBuildProcessor.exsd"/>
+
+   <extension
+         id="javaModelInit"
+         point="edu.mit.csail.relo.store.initializer">
+      <storeInitializer
+            class="edu.mit.csail.relo.jdt.parts.JDTEditPartsModel">
+      </storeInitializer>
+   </extension>
+   <extension
+         id="repositoryUpgrader"
+         point="edu.mit.csail.relo.store.initializer">
+      <storeInitializer
+            class="edu.mit.csail.relo.jdt.builder.ReloJDTBuilder">
+      </storeInitializer>
+   </extension>
+
+   <!-- build processors -->
+   <extension id="anonymousMethodsBuildProcessor" point="edu.mit.csail.relo.jdt.reloBuildProcessor">
+      <class name="edu.mit.csail.relo.jdt.builder.asm.AnonymousMethodsBuildProcessor"/>
+   </extension>
+   <extension id="inferOverridesBuildProcessor" point="edu.mit.csail.relo.jdt.reloBuildProcessor">
+      <class name="edu.mit.csail.relo.jdt.builder.asm.InferOverridesBuildProcessor"/>
+   </extension>
+
+
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            objectClass="org.eclipse.jdt.core.IJavaProject"
+            id="edu.mit.csail.relo.jdt.builderPopupMenu">
+         <action
+               label="Relo Connection..."
+               icon="icons/relo16.gif"
+               class="edu.mit.csail.relo.jdt.builder.ReloJDTConnectorAction"
+               menubarPath="additions"
+               id="edu.mit.csail.relo.jdt.builder.ReloJDTConnectorAction">
+         </action>
+      </objectContribution>
+      <objectContribution
+            objectClass="org.eclipse.jdt.core.IJavaElement"
+            id="edu.mit.csail.relo.JavaElementObjectContrib">
+         <visibility>
+         	<not>
+         		<objectClass 
+         			name="org.eclipse.jdt.core.IJavaProject">
+         		</objectClass>
+         	</not>
+         </visibility>
+         <action
+               label="Open in Relo Session"
+               icon="icons/relo-document.png"
+               class="edu.mit.csail.relo.jdt.actions.OpenForBrowsingAction"
+               menubarPath="additions"
+               id="edu.mit.csail.relo.jdt.actions.OpenForBrowsingObjectAction">
+         </action>
+      </objectContribution>
+      <viewerContribution
+            targetID="#CompilationUnitEditorContext"
+            id="edu.mit.csail.relo.JavaElementViewerContrib">
+         <action
+               label="Open in Relo Session"
+               icon="icons/relo-document.png"
+               class="edu.mit.csail.relo.jdt.actions.OpenForBrowsingAction"
+               menubarPath="group.open"
+               id="edu.mit.csail.relo.jdt.actions.OpenForBrowsingViewerAction">
+         </action>
+      </viewerContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Relo Java Navigation"
+            description="Relo Java Navigation Action Set"
+            visible="true"
+            id="edu.mit.csail.relo.jdt.actionsSet"
+            >
+            <!-- id="org.eclipse.jdt.ui.JavaActionSet" -->
+         <action
+               label="Open Relo Session..."
+               class="edu.mit.csail.relo.jdt.actions.OpenReloSessionAction2"
+               icon="icons/relo-document.png"
+               menubarPath="navigate/open.ext2"
+               id="openReloSession">
+         </action>
+      </actionSet>
+   </extension>
+   
+   <!-- actions for jdt toolbar -->
+   <extension point="org.eclipse.ui.editorActions">
+      <editorContribution
+            id="edu.mit.csail.relo.jdt.reloSessionEditorContributions"
+            targetID="edu.mit.csail.relo.editor">
+         <action
+               class="edu.mit.csail.relo.jdt.browse.JDTLinkedTracker$LinkedTrackerAction"
+               icon="icons/synced.gif"
+               id="edu.mit.csail.relo.jdt.linkedTracker"
+               label="Tracker"
+               style="toggle"
+               toolbarPath="Normal/additions"
+               tooltip="Track Environment Explorations in Editor"/>
+         <action
+               class="edu.mit.csail.relo.jdt.browse.EmbeddedMethodAction"
+               icon="icons/embedded-method.png"
+               id="edu.mit.csail.relo.jdt.embeddedMethod"
+               label="Embeded Method"
+               style="toggle"
+               toolbarPath="Normal/additions"
+               tooltip="Show Embedded Method while Track Environment Explorations in Editor"/>
+      </editorContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.viewActions">
+      <viewContribution
+            id="edu.mit.csail.relo.jdt.reloSessionViewContributions"
+            targetID="edu.mit.csail.relo.ui.ReloView">
+         <action
+               class="edu.mit.csail.relo.jdt.browse.JDTLinkedTracker$LinkedTrackerAction"
+               icon="icons/synced.gif"
+               id="edu.mit.csail.relo.jdt.linkedTracker"
+               label="Tracker"
+               style="toggle"
+               toolbarPath="Normal/additions"
+               tooltip="Track Environment Explorations in Editor"/>
+         <action
+               class="edu.mit.csail.relo.jdt.browse.EmbeddedMethodAction"
+               icon="icons/embedded-method.png"
+               id="edu.mit.csail.relo.jdt.embeddedMethod"
+               label="Embeded Method"
+               style="toggle"
+               toolbarPath="Normal/additions"
+               tooltip="Show Embedded Method while Track Environment Explorations in Editor"/>
+      </viewContribution>
+   </extension>
+   
+   
+   <extension
+   		point="org.eclipse.ui.startup">
+   	  <startup class="edu.mit.csail.relo.jdt.browse.LiveJDTTracker"/>
+   </extension>
+   <extension
+         id="builder.ReloJDTBuilder"
+         name="Relo Java Builder"
+         point="org.eclipse.core.resources.builders">
+      <builder
+            hasNature="true">
+         <run
+               class="edu.mit.csail.relo.jdt.builder.ReloJDTBuilder">
+         </run>
+      </builder>
+   </extension>
+   <extension
+         id="builder.ReloJDTBuilderProjectNature"
+         name="Relo Java Builder Project Nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="edu.mit.csail.relo.jdt.builder.ReloJDTBuilderProjectNature">
+         </run>
+      </runtime>
+      <requires-nature
+            id="org.eclipse.jdt.core.javanature">
+      </requires-nature>
+      <builder
+            id="edu.mit.csail.relo.jdt.builder.ReloJDTBuilder">
+      </builder>
+   </extension>
+   
+   <extension 
+   		 id="properties.ReloPropertiesPage"
+         name="Relo"
+         point="org.eclipse.ui.propertyPages">
+	  <page 
+	  		objectClass="org.eclipse.core.resources.IProject"
+    		adaptable="true"
+     		name="Relo" 
+     		class="edu.mit.csail.relo.jdt.properties.ReloPropertiesPage"
+     		id="edu.mit.csail.relo.jdt.properties.ReloPropertiesPage">
+	  </page>
+	</extension>
+	
+   <extension point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <viewShortcut id="edu.mit.csail.relo.ui.ReloView"/>
+      </perspectiveExtension>
+      <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaBrowsingPerspective">
+         <viewShortcut id="edu.mit.csail.relo.ui.ReloView"/>
+      </perspectiveExtension>
+      <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaHierarchyPerspective">
+         <viewShortcut id="edu.mit.csail.relo.ui.ReloView"/>
+      </perspectiveExtension>
+      <perspectiveExtension targetID="org.eclipse.debug.ui.DebugPerspective">
+         <viewShortcut id="edu.mit.csail.relo.ui.ReloView"/>
+      </perspectiveExtension>
+      <perspectiveExtension targetID="org.eclipse.pde.ui.PDEPerspective">
+         <viewShortcut id="edu.mit.csail.relo.ui.ReloView"/>
+      </perspectiveExtension>
+   </extension>
+
+
+</plugin>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="org.apache.commons.collections"
+   name="Apache Commons Collections"
+   version="3.1"
+   provider-name="Relo @ MIT CSAIL">
+
+   <runtime>
+      <library name="commons-collections-3.1.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+</plugin>

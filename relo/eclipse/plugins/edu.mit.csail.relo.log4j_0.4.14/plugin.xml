@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="edu.mit.csail.relo.log4j"
+   name="Relo Log4j"
+   version="0.4.14"
+   provider-name="Relo @ MIT CSAIL">
+
+   <runtime>
+      <library name="ReloLog4j.jar">
+         <export name="*"/>
+      </library>
+      <library name="log4j-1.2.9.jar">
+         <export name="*"/>
+      </library>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui.console"/>
+      <import plugin="org.eclipse.jface"/>
+      <import plugin="org.eclipse.ui.workbench"/>
+   </requires>
+
+</plugin>

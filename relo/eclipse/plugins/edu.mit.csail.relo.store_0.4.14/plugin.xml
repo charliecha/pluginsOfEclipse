@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin
+   id="edu.mit.csail.relo.store"
+   name="Relo Store"
+   version="0.4.14"
+   provider-name="Relo @ MIT CSAIL"
+   class="edu.mit.csail.relo.store.ReloStorePlugin">
+
+   <runtime>
+      <library name="ReloStore.jar">
+         <export name="*"/>
+      </library>
+      <!--
+      <library name="lib/jena-2.2b1-plus.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/jena-derbyDriver.jar"/>
+      <library name="lib/derby.jar"/>
+      <library name="lib/xercesImpl.jar"/>
+      <library name="lib/commons-logging.jar"/>
+      <library name="lib/concurrent.jar"/>
+      -->
+      <library name="lib/sesame-1.2.6.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/openrdf-model-1.2.6.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/rio-1.0.9.jar">
+         <export name="*"/>
+      </library>
+      <library name="lib/openrdf-util-1.2.6.jar"/>
+   </runtime>
+
+   <requires>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="edu.mit.csail.relo.log4j"/>
+      <import plugin="org.apache.commons.collections"/>
+      <import plugin="edu.mit.csail.relo.intro"/>
+      <import plugin="org.eclipse.core.resources"/>
+   </requires>
+
+   <extension-point id="initializer" name="Store Initializer"/>
+
+   <extension point="org.eclipse.ui.startup">
+      <startup class="edu.mit.csail.relo.store.VersionBasedStoreInitializerService"/>
+   </extension>
+
+</plugin>
